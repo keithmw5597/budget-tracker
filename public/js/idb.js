@@ -1,11 +1,14 @@
 let db
 const request = indexedDB.open('budget', 1)
 
+
+
 // check for newest version of db
 request.onupgradeneeded = function(event) {
     const db = event.target.result
     db.createObjectStore('pending', { autoIncrement: true })
 }
+
 
 // check if back online to update db
 request.onsuccess = function(event) {
@@ -15,11 +18,13 @@ request.onsuccess = function(event) {
     }
 }
 
+
 // error handling
 request.onerror = function(event) {
     //log error
     console.log(event.target.errorCode)
 }
+
 
 // save pending transactions to db
 function saveRecord(record) {
@@ -27,6 +32,7 @@ function saveRecord(record) {
     const store = transaction.objectStore('pending')
     store.add(record)
 }
+
 
 // fetch pending transactions from db
 function updateData() {
@@ -57,6 +63,8 @@ function updateData() {
         }
     }
 }
+
+
 
 // listen for app coming back online
 window.addEventListener('online', updateData)
